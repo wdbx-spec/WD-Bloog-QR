@@ -9,7 +9,6 @@ export const en: Dictionary = {
   nav: {
     home: 'QR Generator',
     types: 'QR Types',
-    admin: 'Admin',
     history: 'Saved QRs',
     language: 'Language',
   },

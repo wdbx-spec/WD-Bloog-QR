@@ -58,11 +58,6 @@ export function Footer() {
             </h3>
             <ul className="space-y-2 text-xs text-slate-600 dark:text-slate-400">
               <li>
-                <Link href="/admin" className="hover:text-blue-600 transition-colors">
-                  Platform Admin & Analytics
-                </Link>
-              </li>
-              <li>
                 <a href="#faq-section" className="hover:text-blue-600 transition-colors">
                   Frequently Asked Questions
                 </a>

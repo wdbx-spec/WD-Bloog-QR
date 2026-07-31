@@ -9,7 +9,6 @@ export interface Dictionary {
   nav: {
     home: string;
     types: string;
-    admin: string;
     history: string;
     language: string;
   };
