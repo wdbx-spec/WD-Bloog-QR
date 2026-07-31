@@ -6,6 +6,7 @@ import { Footer } from '../components/footer/Footer';
 import { QRWorkspace } from '../components/qr/QRWorkspace';
 import { SEOContent } from '../components/seo/SEOContent';
 import { QRHistoryModal } from '../components/history/QRHistoryModal';
+import { QRScannerModal } from '../components/scanner/QRScannerModal';
 import { getSavedQRHistory } from '../lib/storage';
 import { SavedQRItem, QRType } from '../lib/qr/types';
 import { useLanguage } from '../components/providers/LanguageProvider';
@@ -18,6 +19,8 @@ export default function HomePage() {
     return typeof window !== 'undefined' ? getSavedQRHistory() : [];
   });
   const [historyModalOpen, setHistoryModalOpen] = useState(false);
+  const [scannerModalOpen, setScannerModalOpen] = useState(false);
+  const [scannedPayload, setScannedPayload] = useState<string | null>(null);
 
   const handleUpdateHistory = (updated: SavedQRItem[]) => {
     setHistory(updated);
@@ -33,6 +36,7 @@ export default function HomePage() {
       <Header
         savedCount={history.length}
         onOpenHistory={() => setHistoryModalOpen(true)}
+        onOpenScanner={() => setScannerModalOpen(true)}
       />
 
       {/* Main Workspace Stage */}
@@ -58,6 +62,7 @@ export default function HomePage() {
           initialType="url"
           onTypeChange={setActiveType}
           onUpdateHistoryCount={handleRefreshHistory}
+          scannedPayload={scannedPayload}
         />
 
         {/* Below-the-fold SEO Content, How-To, & FAQs */}
@@ -67,6 +72,15 @@ export default function HomePage() {
           description={dict.meta.description}
         />
       </main>
+
+      {/* Camera QR Scanner Modal */}
+      <QRScannerModal
+        isOpen={scannerModalOpen}
+        onClose={() => setScannerModalOpen(false)}
+        onApplyToGenerator={(payload) => {
+          setScannedPayload(payload);
+        }}
+      />
 
       {/* Saved History Modal Drawer */}
       <QRHistoryModal

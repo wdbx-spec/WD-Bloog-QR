@@ -21,6 +21,7 @@ import {
   Menu,
   X,
   Bookmark,
+  Camera,
 } from 'lucide-react';
 import { useLanguage } from '../providers/LanguageProvider';
 
@@ -41,9 +42,10 @@ export const QR_TYPE_NAV = [
 interface HeaderProps {
   savedCount?: number;
   onOpenHistory?: () => void;
+  onOpenScanner?: () => void;
 }
 
-export function Header({ savedCount = 0, onOpenHistory }: HeaderProps) {
+export function Header({ savedCount = 0, onOpenHistory, onOpenScanner }: HeaderProps) {
   const { dict } = useLanguage();
   const pathname = usePathname();
   const [typesOpen, setTypesOpen] = useState(false);
@@ -148,6 +150,18 @@ export function Header({ savedCount = 0, onOpenHistory }: HeaderProps) {
 
         {/* Right Actions */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {/* QR Camera Scanner Trigger */}
+          {onOpenScanner && (
+            <button
+              onClick={onOpenScanner}
+              className="flex items-center gap-1.5 rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-700 shadow-sm shadow-blue-500/20 transition-all"
+              title="Scan QR Code with Camera"
+            >
+              <Camera className="h-4 w-4" />
+              <span className="hidden sm:inline">Scan QR</span>
+            </button>
+          )}
+
           {/* Saved History Trigger */}
           {onOpenHistory && (
             <button
@@ -178,6 +192,19 @@ export function Header({ savedCount = 0, onOpenHistory }: HeaderProps) {
       {/* Mobile Menu Panel */}
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950 space-y-3">
+          {onOpenScanner && (
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenScanner();
+              }}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 p-3 text-xs font-semibold text-white shadow-md shadow-blue-500/20"
+            >
+              <Camera className="h-4 w-4" />
+              <span>Open Camera QR Scanner</span>
+            </button>
+          )}
+
           <div className="grid grid-cols-2 gap-2">
             <Link
               href="/"

@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+@keyframes scan {
+  0% {
+    top: 5%;
+  }
+  50% {
+    top: 90%;
+  }
+  100% {
+    top: 5%;
+  }
+}

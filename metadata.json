@@ -1,6 +1,6 @@
 {
   "name": "WDBloog QR Code Generator",
   "description": "Free high-performance custom QR Code Generator platform supporting URLs, WiFi, vCards, Email, SMS, Crypto, and Files with multi-language support, custom designs, and vector export.",
-  "requestFramePermissions": [],
+  "requestFramePermissions": ["camera"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

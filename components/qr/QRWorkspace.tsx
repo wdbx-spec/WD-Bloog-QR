@@ -42,9 +42,10 @@ interface QRWorkspaceProps {
   initialType?: QRType;
   onTypeChange?: (type: QRType) => void;
   onUpdateHistoryCount?: () => void;
+  scannedPayload?: string | null;
 }
 
-export function QRWorkspace({ initialType = 'url', onTypeChange, onUpdateHistoryCount }: QRWorkspaceProps) {
+export function QRWorkspace({ initialType = 'url', onTypeChange, onUpdateHistoryCount, scannedPayload }: QRWorkspaceProps) {
   const { dict } = useLanguage();
   const [qrType, setQrType] = useState<QRType>(initialType);
 
@@ -113,6 +114,22 @@ export function QRWorkspace({ initialType = 'url', onTypeChange, onUpdateHistory
     longitude: '-122.4194',
     label: 'San Francisco Headquarters',
   });
+
+  // Handle scanned payload auto-fill
+  React.useEffect(() => {
+    if (!scannedPayload) return;
+    const isLink = scannedPayload.startsWith('http://') || scannedPayload.startsWith('https://');
+    const timer = setTimeout(() => {
+      if (isLink) {
+        setQrType('url');
+        setUrlPayload({ url: scannedPayload });
+      } else {
+        setQrType('text');
+        setTextPayload({ text: scannedPayload });
+      }
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [scannedPayload]);
 
   // Design Customization State
   const [design, setDesign] = useState<QRDesignOptions>(DEFAULT_DESIGN_OPTIONS);
